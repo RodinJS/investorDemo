@@ -21,7 +21,6 @@ const startExperience = () => {
     mainScene.add(milkyway);
 };
 
-startExperience();
 
 RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, ()=> {
     startExperience();
