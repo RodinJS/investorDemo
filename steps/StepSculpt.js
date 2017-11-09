@@ -10,5 +10,9 @@ export class StepSculpt extends RODIN.Sculpt {
     }
     addToScene() {
         mainScene.add(this);
-    };
+    }
+
+    init() {
+        console.warn('init is not overrided');
+    }
 }

@@ -28,7 +28,7 @@ export class Next extends RODIN.Plane {
         this.lookForward.position.z = 3;
         this.add(this.lookForward);
     }
-    initSteps(){
-        steps.initTexts();
+    initSteps(name){
+        steps.initTexts(name);
     }
 }

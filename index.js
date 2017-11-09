@@ -11,7 +11,7 @@ const startExperience = () => {
     mainScene.add(new RODIN.Sculpt(new THREE.AmbientLight(0xFFFFFF, 0.5)));
 
     const next = new Next();
-    next.initSteps();
+    next.initSteps('Christina');
     RODIN.Avatar.active.add(next);
 
     const milkyway = new RODIN.Sphere(50, new THREE.MeshBasicMaterial({ map : RODIN.Loader.loadTexture('./img/milkyway.jpg'),}));
