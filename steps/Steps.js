@@ -219,11 +219,13 @@ class Steps {
         }, moveforwardAnimation.duration() + 2000);
     }
 
-    initTexts(){
+    initTexts(name){
         for (let i = 0; i< this.steps.length; i++){
+            this.steps[i].init(name);
             this.steps[i].addToScene();
         }
         step9.addToScene();
+        step9.init();
     }
 }
 

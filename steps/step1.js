@@ -2,11 +2,11 @@ import * as RODIN from 'rodin/main';
 import {StepSculpt} from "./StepSculpt.js"
 
 export const step1 = new StepSculpt();
-step1.init = () => {
+step1.init = (name) => {
     step1.position.z = -1.5;
 
     const title = new RODIN.Text3D({
-        text: 'Hi John',
+        text: 'Hi ' + name,
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
         fontSize: 0.12,
