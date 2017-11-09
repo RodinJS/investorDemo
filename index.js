@@ -14,7 +14,7 @@ const startExperience = () => {
     next.initSteps();
     RODIN.Avatar.active.add(next);
 
-    const milkyway = new RODIN.Sphere(50, new THREE.MeshBasicMaterial({ map : RODIN.Loader.loadTexture('./img/milkyway.jpg'),}));
+    const milkyway = new RODIN.Sphere(720, 4, new THREE.MeshBasicMaterial({ map : RODIN.Loader.loadTexture('./img/milkyway.jpg'),}));
     milkyway.scale.z = -1;
     milkyway.rotation.y = Math.PI/2;
     milkyway.position.set(0, 1.6, -25);
@@ -23,7 +23,6 @@ const startExperience = () => {
 
 startExperience();
 
-// RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, ()=> {
-//     document.getElementById('img').style.display = "none";
-//     // document.getElementById('pulsating-circle').style.display = "none";
-// });
+RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, ()=> {
+    startExperience();
+});
