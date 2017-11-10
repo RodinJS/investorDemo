@@ -147,7 +147,6 @@ step9.init = () => {
     });
 
     location.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (e) => {
-        /// TODO: mail gna
         text.parent = null;
         text1.parent = null;
         text2.parent = null;
@@ -155,9 +154,24 @@ step9.init = () => {
         location.parent = null;
         locationImpuls.parent = null;
 
-        step9.add(check);
-        // step9.add(error);
+        sendEmail().then(data => {
+            step9.add(check);
+        }).catch(() => {
+            step9.add(error);
+        });
+    });
+};
 
-        // get(`https://api.rodin.investments/sendEmail?id=${getUserID()}`).then()
+const sendEmail = (n = 5) => {
+    return new Promise((resolve, reject) => {
+        get(`https://api.rodin.investments/sendEmail?id=${getUserID()}`).then(data => {
+            resolve(data);
+        }).catch((err) => {
+            if(n === 0) {
+                reject(err)
+            } else {
+                sendEmail(n - 1);
+            }
+        });
     });
 };
