@@ -8,6 +8,7 @@ import {step6} from "./step6.js";
 import {step7} from "./step7.js";
 import {step8} from "./step8.js";
 import {step9} from "./step9.js";
+import {logEvent} from "../firebase.js";
 
 import {openDoor, hideRoom} from "../Doors.js";
 
@@ -100,7 +101,7 @@ const rightAnimation = new RODIN.AnimationClip('right', {
 rightAnimation.duration(1000);
 rightAnimation.easing(leftAnimation.easing());
 
-class Steps {
+export class Steps {
     constructor() {
         this.current = -1;
         this.steps = [step1, step2, step3, step4, step5, step6, step7, step8];
@@ -181,8 +182,8 @@ class Steps {
 
         this.current++;
         this.callbacks[this.current]();
-        // todo: Analitika log anel
 
+        logEvent({type: 'slidechange', slideId: this.current, duration: Date.now() - this.lastMovedTimestamp});
         this.lastMovedTimestamp = Date.now();
     }
 
@@ -228,5 +229,3 @@ class Steps {
         step9.init();
     }
 }
-
-export const steps = new Steps();

@@ -1,12 +1,26 @@
 const database = firebase.database();
+let userRef = null;
+let eventsRef = null;
+let currentEvnt = 0;
 
-let userId = '';
-let username = '';
+let id = '';
+let name = '';
 
-export const userEnter = (_userId, _username) => {
-    userId = _userId;
-    username = _username;
-    database.ref('users/' + userId).set({
+export const userEnter = (_id, _name) => {
+    id = _id;
+    name = _name;
+    return database.ref(`users/${id}`).set({
         name: name,
-    }).then(console.log('data set success'));
+        events: {}
+    }).then(() => {
+        console.log('user enter success')
+    });
+};
+
+export const logEvent = (data) => {
+    const evtId = currentEvnt + 1;
+    currentEvnt ++;
+    database.ref(`users/${id}/events/${evtId}`).set(data).then(() => {
+        console.log('event log success')
+    })
 };

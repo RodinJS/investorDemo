@@ -1,14 +1,16 @@
 import * as RODIN from 'rodin/main';
 import {Next} from './Next.js';
 import {initEnvirement} from "./Doors.js";
+import {userEnter} from "./firebase.js";
+import {get} from "./ajax.js";
 
 RODIN.start();
 
 initEnvirement();
 
-const startExperience = (name) => {
+const startExperience = (userData) => {
 
-
+    userEnter(userData.id, userData.name);
     document.getElementById('loadingBackground').style.display = 'none';
 
     const mainScene = RODIN.Scene.scenes.filter(i => i.name === 'Main')[0];
@@ -42,7 +44,7 @@ const startExperience = (name) => {
     });
 
     const next = new Next();
-    next.initSteps(name);
+    next.initSteps(userData.name, userData.id);
     RODIN.Avatar.active.add(next);
 
     const milkyway = new RODIN.Sphere(720, 4, new THREE.MeshBasicMaterial({ map : RODIN.Loader.loadTexture('./img/milkyway.jpg'),}));
@@ -53,7 +55,16 @@ const startExperience = (name) => {
 };
 
 const getUserData = new Promise((resolve, reject) => {
-    resolve({name: 'Gor'});
+    const id = getAllUrlParams().id;
+    if(!id) {
+        throw new Error('invalid ID');
+    }
+
+    return get(`http://192.168.0.30:3000/?id=${id}`).then((data) => {
+        console.log('data get success');
+        data = JSON.parse(data);
+        resolve({id, name: data.name});
+    });
 });
 
 getUserData.then((data) => {
@@ -67,10 +78,10 @@ getUserData.then((data) => {
 RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, ()=> {
     getUserData.then(userData => {
         if(window.textReady) {
-            startExperience(userData.name);
+            startExperience(userData);
         } else {
             window.addEventListener('textReady', () => {
-                startExperience();
+                startExperience(userData);
             });
         }
     })

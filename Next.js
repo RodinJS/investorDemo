@@ -1,5 +1,5 @@
 import * as RODIN from 'rodin/main';
-import {steps} from "./steps/Steps.js"
+import {Steps} from "./steps/Steps.js"
 import {LookingDirection} from './LookingDirection.js'
 
 export class Next extends RODIN.Plane {
@@ -7,8 +7,9 @@ export class Next extends RODIN.Plane {
         super(2, 1, new THREE.MeshBasicMaterial({transparent: true, opacity: 0.0}));
         this.position.set(0, 1.4, -1.51);
 
+        this.steps = null;
         this.on(RODIN.CONST.GAMEPAD_BUTTON_UP, () => {
-            steps.requestNext()
+            this.steps.requestNext()
         });
 
         this.lookRight = new LookingDirection(['Look right', '>']);
@@ -28,7 +29,9 @@ export class Next extends RODIN.Plane {
         this.lookForward.position.z = 3;
         this.add(this.lookForward);
     }
+
     initSteps(name){
-        steps.initTexts(name);
+        this.steps = new Steps();
+        this.steps.initTexts(name);
     }
 }
