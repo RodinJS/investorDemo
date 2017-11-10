@@ -22,7 +22,7 @@ step9.init = () => {
     });
 
     const error = new RODIN.Text3D({
-        text: 'Oops. Something went wrong.\nplease check your connection',
+        text: 'Oops. Something went wrong\nplease check your network connection',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
         fontSize: 0.07,

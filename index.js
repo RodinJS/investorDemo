@@ -3,9 +3,9 @@ import {Next} from './Next.js';
 import {initEnvirement} from "./Doors.js";
 import {userEnter} from "./firebase.js";
 import {get} from "./ajax.js";
+import {initSpace} from "./space.js"
 
 RODIN.start();
-
 initEnvirement();
 
 const fadeSphere = new RODIN.Sphere(.5, 32, 32, new THREE.MeshBasicMaterial({

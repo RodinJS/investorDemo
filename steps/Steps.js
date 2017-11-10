@@ -9,6 +9,7 @@ import {step7} from "./step7.js";
 import {step8} from "./step8.js";
 import {step9} from "./step9.js";
 import {logEvent} from "../firebase.js";
+import {initSpace} from "../space.js"
 
 import {openDoor, hideRoom} from "../Doors.js";
 
@@ -173,6 +174,8 @@ export class Steps {
                 RODIN.Avatar.active.animation.start('exit');
                 RODIN.Avatar.active.once(RODIN.CONST.ANIMATION_COMPLETE, () => {
                     hideRoom();
+                    initSpace();
+
                 })
             }, openDoor.duration - 1000);
 
