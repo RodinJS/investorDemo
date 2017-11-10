@@ -28,7 +28,7 @@ const startExperience = (userData) => {
     let fadeSceneAnim = new RODIN.AnimationClip("fadeSceneAnim", {
         _threeObject: {
             material: {
-                opacity: { from: 1, to :0}
+                opacity: {from: 1, to: 0}
             }
         }
     });
@@ -47,37 +47,31 @@ const startExperience = (userData) => {
     next.initSteps(userData.name, userData.id);
     RODIN.Avatar.active.add(next);
 
-    const milkyway = new RODIN.Sphere(720, 4, new THREE.MeshBasicMaterial({ map : RODIN.Loader.loadTexture('./img/milkyway.jpg'),}));
+    const milkyway = new RODIN.Sphere(50, 720, 4, new THREE.MeshBasicMaterial({map: RODIN.Loader.loadTexture('./img/milkyway.jpg')}));
     milkyway.scale.z = -1;
-    milkyway.rotation.y = Math.PI/2;
+    milkyway.rotation.y = Math.PI / 2;
     milkyway.position.set(0, 1.6, -25);
     mainScene.add(milkyway);
 };
 
 const getUserData = new Promise((resolve, reject) => {
     const id = getAllUrlParams().id;
-    if(!id) {
-        throw new Error('invalid ID');
+    if (!id) {
+        return typeError();
     }
 
-    return get(`http://192.168.0.30:3000/?id=${id}`).then((data) => {
+    return get(`https://api.rodin.investments/?id=${id}`).then((data) => {
         console.log('data get success');
         data = JSON.parse(data);
         resolve({id, name: data.name});
+    }).catch(() => {
+        typeError();
     });
 });
 
-getUserData.then((data) => {
-    // todo: add to firebase
-    console.log('user data ready');
-}).catch(err => {
-    console.log(`Error when getting data`);
-    console.error(err);
-});
-
-RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, ()=> {
+RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
     getUserData.then(userData => {
-        if(window.textReady) {
+        if (window.textReady) {
             startExperience(userData);
         } else {
             window.addEventListener('textReady', () => {

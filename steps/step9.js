@@ -1,8 +1,11 @@
 import * as RODIN from 'rodin/main';
+import {get} from "../ajax.js";
+import {logEvent, getUserID} from "../firebase.js";
 
 import {StepSculpt} from "./StepSculpt.js"
 
 export const step9 = new StepSculpt();
+
 step9.init = () => {
     step9.position.z = -37.5;
 
@@ -12,9 +15,22 @@ step9.init = () => {
         font: './fonts/Roboto-Bold.ttf',
         fontSize: 0.07,
     });
+
     check.on(RODIN.CONST.READY, (e) => {
         check.center();
         check.position.y = 0;
+    });
+
+    const error = new RODIN.Text3D({
+        text: 'Oops. Something went wrong.\nplease check your connection',
+        color: 0xFFFFFF,
+        font: './fonts/Roboto-Bold.ttf',
+        fontSize: 0.07,
+    });
+
+    error.on(RODIN.CONST.READY, (e) => {
+        error.center();
+        error.position.y = 0;
     });
 
     const text = new RODIN.Text3D({
@@ -140,5 +156,8 @@ step9.init = () => {
         locationImpuls.parent = null;
 
         step9.add(check);
+        // step9.add(error);
+
+        // get(`https://api.rodin.investments/sendEmail?id=${getUserID()}`).then()
     });
-}
+};

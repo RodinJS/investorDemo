@@ -1,35 +1,35 @@
-// let worker = new Worker('textTyping.js');
 const cmd = document.getElementById('cmd');
 cmd.innerHTML = '';
-
-// worker.onmessage = function(event){
-//     if(event.data === 'end') {
-//         return setTimeout(() => {
-//             window.textReady = true;
-//             window.dispatchEvent(new Event('textReady'));
-//         }, 1000);
-//     }
-//
-//     cmd.innerHTML = event.data;
-// };
-
-const text = 'We are getting ready, please wait';
-
 const randomIn = (min, max) => min + Math.random() * (max - min);
 
-function start() {
-    const type = (text, i) => {
-        if(i > text.length) {
-            window.textReady = true;
-            window.dispatchEvent(new Event('textReady'));
+
+function typeText(text = 'We are getting ready, please wait') {
+    typeText.runningID = Math.random();
+
+    const type = (text, i, runningID) => {
+        if(typeText.runningID !== runningID) {
             return;
         }
 
-        cmd.innerHTML = text.substr(0, i)
-        setTimeout(() => {type(text, i + 1)}, randomIn(30, 60));
+        if(i > text.length) {
+            window.textReady = true;
+            window.dispatchEvent(new Event('textReady'));
+            typeText.runningID = NaN;
+            return;
+        }
+
+        cmd.innerHTML = text.substr(0, i);
+        setTimeout(() => {type(text, i + 1, runningID)}, randomIn(30, 60));
     };
 
-    type(text, 0)
+    type(text, 0, typeText.runningID);
 }
 
-setTimeout( start, 1500 );
+function typeError(text = 'Something went wrong, please reload the page') {
+    typeText(text);
+}
+
+typeText.runningID = NaN;
+
+setTimeout( typeText, 1500 );
+

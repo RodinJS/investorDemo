@@ -1,6 +1,4 @@
 const database = firebase.database();
-let userRef = null;
-let eventsRef = null;
 let currentEvnt = 0;
 
 let id = '';
@@ -24,3 +22,5 @@ export const logEvent = (data) => {
         console.log('event log success')
     })
 };
+
+export const getUserID = () => id;
