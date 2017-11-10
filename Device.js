@@ -1,3 +1,19 @@
+let counter = 0;
+let lastTimestamp = Date.now();
+
+
+const update = () => {
+    counter ++;
+    if(counter > 100) {
+        counter = 0;
+        lastTimestamp = Date.now();
+    }
+
+    requestAnimationFrame(update);
+};
+
+requestAnimationFrame(update);
+
 class Device {
     constructor() {
     }
@@ -142,6 +158,12 @@ class Device {
                 return 'unknown';
         }
     }
+
+    get fps() {
+        return parseInt(counter / (Date.now() - lastTimestamp) * 1000)
+    }
 }
 
 export const device = new Device();
+
+window.device = device;

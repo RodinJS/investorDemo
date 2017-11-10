@@ -37,6 +37,7 @@ export const logEvent = (data) => {
     if(!enabled) return;
     const evtId = currentEvnt + 1;
     currentEvnt ++;
+    data.fps = device.fps;
     database.ref(`users/${id}/events/${evtId}`).set(data).then(() => {
         console.log('event log success');
     });
