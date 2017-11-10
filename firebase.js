@@ -6,9 +6,10 @@ let name = '';
 let enabled = false;
 
 export const userEnter = (_id, _name) => {
-    if(!enabled) return;
     id = _id;
     name = _name;
+
+    if(!enabled) return;
     return database.ref(`users/${id}`).set({
         name: name,
         events: {}

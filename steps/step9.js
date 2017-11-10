@@ -170,7 +170,7 @@ const sendEmail = (n = 5) => {
             if(n === 0) {
                 reject(err)
             } else {
-                sendEmail(n - 1);
+                return sendEmail(n - 1);
             }
         });
     });
