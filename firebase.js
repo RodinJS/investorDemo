@@ -3,8 +3,10 @@ let currentEvnt = 0;
 
 let id = '';
 let name = '';
+let enabled = false;
 
 export const userEnter = (_id, _name) => {
+    if(!enabled) return;
     id = _id;
     name = _name;
     return database.ref(`users/${id}`).set({
@@ -16,11 +18,14 @@ export const userEnter = (_id, _name) => {
 };
 
 export const logEvent = (data) => {
+    if(!enabled) return;
     const evtId = currentEvnt + 1;
     currentEvnt ++;
     database.ref(`users/${id}/events/${evtId}`).set(data).then(() => {
         console.log('event log success')
     })
 };
+
+export const enableFirebase = () => {enabled = true;};
 
 export const getUserID = () => id;
