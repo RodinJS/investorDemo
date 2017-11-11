@@ -151,6 +151,7 @@ step9.init = () => {
 
         sendEmail().then(data => {
             step9.add(check);
+            logEvent({type: 'emailsend'});
         }).catch(() => {
             step9.add(error);
         });

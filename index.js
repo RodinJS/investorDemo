@@ -1,7 +1,7 @@
 import * as RODIN from 'rodin/main';
 import {Next} from './Next.js';
 import {initEnvirement} from "./Doors.js";
-import {userEnter} from "./firebase.js";
+import {userEnter, enableFirebase} from "./firebase.js";
 import {get} from "./ajax.js";
 import {initSpace} from "./space.js"
 
@@ -43,6 +43,7 @@ RODIN.Scene.add(milkyway);
 
 const startExperience = (userData) => {
 
+    enableFirebase();
     userEnter(userData.id, userData.name);
     document.getElementById('loadingBackground').style.display = 'none';
 

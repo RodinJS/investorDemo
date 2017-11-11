@@ -204,7 +204,7 @@ export class Steps {
         this.current++;
         this.callbacks[this.current]();
 
-        logEvent({type: 'slidechange', slideId: this.current, duration: Date.now() - this.lastMovedTimestamp});
+        logEvent({type: 'slidechange', slideId: this.current, previousSlideDuration: Date.now() - this.lastMovedTimestamp});
         this.lastMovedTimestamp = Date.now();
     }
 
