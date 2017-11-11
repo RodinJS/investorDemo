@@ -9,7 +9,7 @@ import {step7} from "./step7.js";
 import {step8} from "./step8.js";
 import {step9} from "./step9.js";
 import {logEvent} from "../firebase.js";
-import {initSpace} from "../space.js"
+import {dimLights} from "../space.js"
 
 import {openDoor, hideRoom} from "../Doors.js";
 
@@ -167,6 +167,22 @@ export class Steps {
     next() {
         if (this.current + 1 > this.steps.length) return;
 
+        const click = new RODIN.Text3D({
+            text: 'click to continue',
+            color: 0xFFFFFF,
+            font: './fonts/Roboto-Regular.ttf',
+            fontSize: 0.03,
+            align: 'center'
+        });
+        click.on(RODIN.CONST.READY, (e) => {
+            click.center();
+            click.position.y = -0.40;
+            const step = this.steps[this.current]
+            setTimeout(function(){step.add(click)}, 5000);
+            console.log(this.current+1);
+        });
+
+
         if (this.current === this.steps.length - 1) {
             this.hideAllShow();
             openDoor();
@@ -174,10 +190,12 @@ export class Steps {
                 RODIN.Avatar.active.animation.start('exit');
                 RODIN.Avatar.active.once(RODIN.CONST.ANIMATION_COMPLETE, () => {
                     hideRoom();
-                    initSpace();
-
+                    RODIN.Avatar.active.next.remove(RODIN.Avatar.active.next.lookRight);
+                    RODIN.Avatar.active.next.remove(RODIN.Avatar.active.next.lookLeft);
+                    RODIN.Avatar.active.next.remove(RODIN.Avatar.active.next.lookForward);
                 })
             }, openDoor.duration - 1000);
+            dimLights();
 
             this.current++;
             return;

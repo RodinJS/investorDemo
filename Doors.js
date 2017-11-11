@@ -21,7 +21,7 @@ let sceneObj = null;
 
 export const initEnvirement = () => {
     const mainScene = RODIN.Scene.scenes.filter(i => i.name === 'Main')[0];
-    mainScene.add(new RODIN.Sculpt(new THREE.AmbientLight(0xFFFFFF, 0.5)));
+    // mainScene.add(new RODIN.Sculpt(new THREE.AmbientLight(0xFFFFFF, 0.5)));
 
     sceneObj = new RODIN.Sculpt();
     sceneObj.scale.set(1.5, 1.5, 1.5);

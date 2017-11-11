@@ -59,19 +59,14 @@ step9.init = () => {
 
     const impulsInAnimation = new RODIN.AnimationClip('impulsIn', {
         scale: {
-            x: 0.5,
-            y: 0.5,
-            z: 0.5,
+            x: 0.8,
+            y: 0.8,
+            z: 0.8,
         }
     });
 
-    impulsInAnimation.duration(1200);
-    impulsInAnimation.easing((k) => {
-        if ((k *= 2) < 1) {
-            return 0.5 * k * k * k;
-        }
-        return 0.5 * ((k -= 2) * k * k + 2);
-    });
+    impulsInAnimation.duration(800);
+    impulsInAnimation.easing(RODIN.AnimationClip.EASING.Sinusoidal.InOut);
 
     const impulsOutAnimation = new RODIN.AnimationClip('impulsOut', {
         scale: {
@@ -81,7 +76,7 @@ step9.init = () => {
         }
     });
 
-    impulsOutAnimation.duration(1200);
+    impulsOutAnimation.duration(800);
     impulsOutAnimation.easing(impulsInAnimation.easing());
 
     const location = new RODIN.Plane(0.25, 0.25, new THREE.MeshBasicMaterial({

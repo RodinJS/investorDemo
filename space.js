@@ -1,10 +1,30 @@
 import * as RODIN from 'rodin/main';
 
+RODIN.Scene.renderer.shadowMap.enabled = true;
 const milkyway = new RODIN.Sphere(50, 720, 4, new THREE.MeshBasicMaterial({map: RODIN.Loader.loadTexture('./img/milkyway.jpg'),}));
 milkyway.scale.z = -1;
 milkyway.rotation.y = Math.PI / 2;
+const sunR = 1;
+const earthR = .4;
+
+///////////////////////////////////PLANET/////////////////////////////////////
+
+const earthmat = new THREE.MeshPhongMaterial({
+    bumpScale: 0.03,
+    specular: 0x888888,
+    shininess: 10,
+    map: RODIN.Loader.loadTexture('./img/earthmap1k.jpg'),
+    bumpMap: RODIN.Loader.loadTexture('./img/earthbump1k.jpg'),
+    specularMap: RODIN.Loader.loadTexture('./img/earthspec1k.jpg')
+});
+
+const earth = new RODIN.Sphere(earthR, 32, 32, earthmat);
+
+earth._threeObject.receiveShadow = true;
+earth._threeObject.castShadow = true;
+
+//////////////////////////////////////////////////////////////////////////////
 milkyway.position.set(0, 1.6, -25);
-const sun = new RODIN.Sphere(2, 32, 32);
 
 
 const sun_fragmentShader = `uniform float time;
@@ -80,27 +100,12 @@ let sun_uniforms = {
     texture2: {value: RODIN.Loader.loadTexture('shaders/lavatile3.jpg')}
 };
 
-/*var spriteMaterial = new THREE.SpriteMaterial(
-    {
-        map: RODIN.Loader.loadTexture('shaders/glow.jpg' ),
-        useScreenCoordinates: false,
-        color: 0xffffff, transparent: false, blending: THREE.AdditiveBlending
-    });
-var sprite = new THREE.Sprite( spriteMaterial );
-sprite.scale.set(7, 7, 7);
+sun_uniforms.texture1.value.wrapS = sun_uniforms.texture1.value.wrapT = THREE.RepeatWrapping;
+sun_uniforms.texture2.value.wrapS = sun_uniforms.texture2.value.wrapT = THREE.RepeatWrapping;
 
-sun.add(new RODIN.Sculpt(sprite));
-sprite.position.z = -1*/
 
-var customMaterial = new THREE.ShaderMaterial(
+var sunGLowMat = new THREE.ShaderMaterial(
     {
-        /*        uniforms: {  },
-                vertexShader:   glow_vertexShader,
-                fragmentShader: glow_fragmentShader,
-                side: THREE.BackSide,
-                blending: THREE.AdditiveBlending,
-                transparent: true
-            }*/
         uniforms:
             {
                 "c": {type: "f", value: 0.5},
@@ -114,41 +119,97 @@ var customMaterial = new THREE.ShaderMaterial(
         blending: THREE.AdditiveBlending,
         transparent: true
     });
+const atmoMat = new THREE.ShaderMaterial(
+    {
+        uniforms:
+            {
+                "c": {type: "f", value: 0.5},
+                "p": {type: "f", value: 6},
+                glowColor: {type: "c", value: new THREE.Color(0x2DAEF2)},
+                viewVector: {type: "v3", value: RODIN.Avatar.active.position}
+            },
+        vertexShader: glow_vertexShader,
+        fragmentShader: glow_fragmentShader,
+        side: THREE.BackSide,
+        blending: THREE.AdditiveBlending,
+        transparent: true
+    });
 
-
-const glow = new RODIN.Sphere(3, 32, 32, customMaterial);
+const glow = new RODIN.Sphere(sunR * 1.5, 32, 32, sunGLowMat);
+const atmosphere = new RODIN.Sphere(earthR * 1.08, 32, 32, atmoMat);
+const sky = new RODIN.Sphere(earthR * 1.01, 32, 32, new THREE.MeshPhongMaterial(
+    {
+        map: RODIN.Loader.loadTexture('./img/earthcloudmap.jpg'),
+        alphaMap: RODIN.Loader.loadTexture('./img/earthcloudmaptrans.jpg'),
+        side: THREE.DoubleSide,
+        transparent: true
+    }));
+const sun = new RODIN.Sphere(sunR, 32, 32,new THREE.ShaderMaterial({
+    uniforms: sun_uniforms,
+    vertexShader: sun_vertexShader,
+    fragmentShader: sun_fragmentShader
+}));
+let ambient = null;
+RODIN.Scene.active._scene.children.forEach(function (s) {
+    if (s.type == "AmbientLight")
+        ambient = s;
+});
+ambient.intensity = 2
 export const initSpace = function () {
+    const avatarpos = new THREE.Vector3(0,0,-36);
     RODIN.Scene.add(milkyway);
     RODIN.Scene.add(sun);
     RODIN.Scene.add(glow);
+    RODIN.Scene.add(earth);
+    RODIN.Scene.add(atmosphere);
+    RODIN.Scene.add(sky);
 
-
-    sun_uniforms.texture1.value.wrapS = sun_uniforms.texture1.value.wrapT = THREE.RepeatWrapping;
-    sun_uniforms.texture2.value.wrapS = sun_uniforms.texture2.value.wrapT = THREE.RepeatWrapping;
-    /**
-     * Create lava material
-     * @type {THREE.ShaderMaterial}
-     */
-    const lavaMaterial = new THREE.ShaderMaterial({
-        uniforms: sun_uniforms,
-        vertexShader: sun_vertexShader,
-        fragmentShader: sun_fragmentShader
-    });
-
-    /**
-     * Add uniforms on lavaMaterial for using it in our index.js
-     */
-    lavaMaterial.uniforms = sun_uniforms;
+    sun.position.set(5, 0, avatarpos.z);
+    glow.position.set(5, 0, avatarpos.z);
+    earth.position.copy(sun.position);
+    earth.position.z -= 3;
+    earth.position.x -= 4;
+    sky.position.copy(earth.position);
+    atmosphere.position.copy(earth.position);
 
     sun.on(RODIN.CONST.UPDATE, () => {
-        lavaMaterial.uniforms.time.value += 0.4 * RODIN.Time.delta * 0.001;
+        sun.material.uniforms.time.value += 0.4 * RODIN.Time.delta * 0.001;
     });
-    sun.material = lavaMaterial;
-    sun.position.set(10, 0, RODIN.Avatar.active.position.z);
-    glow.position.set(10, 0, RODIN.Avatar.active.position.z)
-    glow.on(RODIN.CONST.UPDATE , (e) => {
-        const p =  RODIN.Avatar.active.position;
+    glow.on(RODIN.CONST.UPDATE, (e) => {
+        const p = RODIN.Avatar.active.position;
         e.target.material.uniforms.viewVector.value =
-            new THREE.Vector3().subVectors(new THREE.Vector3(p.x, p.y+1.6, p.z), e.target.position );
-    })
+            new THREE.Vector3().subVectors(new THREE.Vector3(p.x, p.y + 1.6, p.z), e.target.position);
+    });
+    atmosphere.on(RODIN.CONST.UPDATE, (e) => {
+        const p = RODIN.Avatar.active.position;
+        e.target.material.uniforms.viewVector.value =
+            new THREE.Vector3().subVectors(new THREE.Vector3(p.x, p.y + 1.6, p.z), e.target.position);
+    });
+    earth.on(RODIN.CONST.UPDATE, () => {
+        earth.rotation.y += RODIN.Time.delta * 0.00005;
+        sky.rotation.y += RODIN.Time.delta * 0.0001;
+    });
+
+
+
+
+    const l = new THREE.SpotLight(0xffffff, 1, 0, 10, 2);
+    l.position.copy(sun._threeObject.position);
+    l.target = earth._threeObject;
+    l.castShadow = true;
+    let light = new RODIN.Sculpt(l);			//default; light shining from top
+
+    RODIN.Scene.add(light);
 };
+let dim = function(){
+    if(ambient.intensity > 0) {
+        ambient.intensity -= 0.025;
+    }
+    else{
+        sun.removeEventListener(RODIN.CONST.UPDATE, dim)
+    }
+}
+
+export const dimLights = function () {
+    sun.on(RODIN.CONST.UPDATE, dim);
+}

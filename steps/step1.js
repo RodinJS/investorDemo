@@ -35,11 +35,13 @@ step1.init = (name) => {
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,
     });
+
     text1.on(RODIN.CONST.READY, (e) => {
         text1.center();
         text1.position.y = -0.08;
         step1.add(text1);
     });
+
 };
 
 // RODIN.Scene.add(step1);

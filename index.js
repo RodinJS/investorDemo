@@ -46,13 +46,15 @@ const startExperience = (userData) => {
     userEnter(userData.id, userData.name);
     document.getElementById('loadingBackground').style.display = 'none';
 
-    RODIN.Scene.add(new RODIN.Sculpt(new THREE.AmbientLight(0xFFFFFF, 0.5)));
+    // RODIN.Scene.add(new RODIN.Sculpt(new THREE.AmbientLight(0xFFFFFF, 0.5)));
 
     fadeSphere.animation.start('fadeSceneAnim');
     const next = new Next();
     next.initSteps(userData.name, userData.id);
+    RODIN.Avatar.active.next = next;
     RODIN.Avatar.active.add(next);
 };
+
 
 const getUserData = new Promise((resolve, reject) => {
     const id = getAllUrlParams().id;
@@ -79,4 +81,5 @@ RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
             });
         }
     })
+    initSpace();
 });
