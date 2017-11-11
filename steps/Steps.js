@@ -179,7 +179,6 @@ export class Steps {
             click.position.y = -0.40;
             const step = this.steps[this.current]
             setTimeout(function(){step && step.add(click)}, 5000);
-            console.log(this.current+1);
         });
 
 

@@ -167,8 +167,9 @@ export const initSpace = function () {
     sun.position.set(5, 0, avatarpos.z);
     glow.position.set(5, 0, avatarpos.z);
     earth.position.copy(sun.position);
-    earth.position.z -= 3;
-    earth.position.x -= 4;
+    earth.position.z += 3;
+    earth.position.x = 0;
+
     sky.position.copy(earth.position);
     atmosphere.position.copy(earth.position);
 

@@ -43,7 +43,11 @@ RODIN.Scene.add(milkyway);
 
 const startExperience = (userData) => {
 
-    enableFirebase();
+    if(getAllUrlParams().a === true) {
+        enableFirebase();
+        console.log('firebase enabled');
+    }
+
     userEnter(userData.id, userData.name);
     document.getElementById('loadingBackground').style.display = 'none';
 

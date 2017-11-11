@@ -149,11 +149,13 @@ step9.init = () => {
         location.parent = null;
         locationImpuls.parent = null;
 
+        logEvent({type: 'emailrequest'});
         sendEmail().then(data => {
             step9.add(check);
             logEvent({type: 'emailsend'});
         }).catch(() => {
             step9.add(error);
+            logEvent({type: 'emailsend ERROR'});
         });
     });
 };
