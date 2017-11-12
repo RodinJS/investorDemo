@@ -33,7 +33,7 @@ const exitAnimation = new RODIN.AnimationClip('exit', {
         z: '-24'
     }
 });
-exitAnimation.duration(2000);
+exitAnimation.duration(4000);
 exitAnimation.easing(function (k) {
     if ((k *= 2) < 1) {
         return 0.5 * k * k;

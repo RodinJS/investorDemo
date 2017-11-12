@@ -82,8 +82,8 @@ export const initEnvirement = () => {
 
     const leftOpenAnimation = new RODIN.AnimationClip('open', {
         position: {
-            x: '-0.866',
-            y: '+0.5'
+            x: '-1.3',
+            y: '+0.75'
         }
     });
     leftOpenAnimation.duration(duration);
@@ -91,8 +91,8 @@ export const initEnvirement = () => {
 
     const rightOpenAnimation = new RODIN.AnimationClip('open', {
         position: {
-            x: '+0.866',
-            y: '+0.5'
+            x: '+1.3',
+            y: '+0.75'
         }
     });
     rightOpenAnimation.duration(duration);
@@ -100,7 +100,7 @@ export const initEnvirement = () => {
 
     const bottomOpenAnimation = new RODIN.AnimationClip('open', {
         position: {
-            y: '-1'
+            y: '-1.5'
         }
     });
     bottomOpenAnimation.duration(duration);

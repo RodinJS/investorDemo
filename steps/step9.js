@@ -85,6 +85,7 @@ step9.init = () => {
         side: THREE.DoubleSide
     }));
     step9.add(location);
+    location.position.z = 0.02;
 
     const locationImpuls = new RODIN.Plane(0.4, 0.4, new THREE.MeshBasicMaterial({
         transparent: true,
@@ -93,7 +94,7 @@ step9.init = () => {
     }));
     locationImpuls.animation.add(impulsInAnimation, impulsOutAnimation);
     locationImpuls.animation.start('impulsIn');
-    locationImpuls.position.z = -0.01;
+    locationImpuls.position.z = 0.01;
     step9.add(locationImpuls);
 
     locationImpuls.on(RODIN.CONST.ANIMATION_COMPLETE, (e) => {
