@@ -62,18 +62,19 @@ const startExperience = (userData) => {
 
 
 const getUserData = new Promise((resolve, reject) => {
-    const id = getAllUrlParams().id;
-    if (!id) {
+    const n = getAllUrlParams().n;
+    if (!n) {
         return typeError();
     }
 
-    return get(`https://api.rodin.investments/?id=${id}`).then((data) => {
-        console.log('data get success');
-        data = JSON.parse(data);
-        resolve({id, name: data.name});
-    }).catch(() => {
-        typeError();
-    });
+    resolve(n);
+//     return get(`https://api.rodin.investments/?id=${id}`).then((data) => {
+//         console.log('data get success');
+//         data = JSON.parse(data);
+//         resolve({id, name: data.name});
+//     }).catch(() => {
+//         typeError();
+//     });
 });
 
 RODIN.messenger.once(RODIN.CONST.ALL_SCULPTS_READY, () => {
