@@ -6,7 +6,7 @@ step1.init = (name) => {
     step1.position.z = -1.5;
 
     const title = new RODIN.Text3D({
-        text: 'Hi ' + name,
+        text: 'Hi ' + name.replace("%20", " "),
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
         fontSize: 0.12,
