@@ -12,9 +12,12 @@ step2.init = () => {
     }));
     cardboard.position.y = 0.22;
     step2.add(cardboard);
-
+/*
+I started out manufacturing vr cardboard boxes. In fact, I partnered with Google three years ago and made about 2 million of them.
+(btw we just built this experience for you guys today and didn’t have time to send out headsets).
+ */
     const text = new RODIN.Text3D({
-        text: 'I started out manufacturing that vr cardboard box',
+        text: 'I started out manufacturing vr cardboard boxes.',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,
@@ -26,7 +29,7 @@ step2.init = () => {
     });
 
     const text1 = new RODIN.Text3D({
-        text: 'you are holding. In fact, I partnered with ',
+        text: 'In fact, I partnered with  ',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,
@@ -107,6 +110,19 @@ step2.init = () => {
                 boldTxt1.position.y = -0.185;
                 slimTxt1.position.x = ((maxX - minX) - boldTxt1Width + slimTxt1Width) / 2 + 0.015;
                 slimTxt1.position.y = -0.185;
+            });
+            const footer = new RODIN.Text3D({
+                text: '(btw we just built this experience for you guys today\nand didn’t have time to send out headsets)',
+                color: 0xFFFFFF,
+                font: './fonts/Roboto-Regular.ttf',
+                lineHeight: 0.05,
+                fontSize: 0.03,
+                align: "center"
+            });
+            footer.on(RODIN.CONST.READY, (e) => {
+                footer.center();
+                footer.position.y = -0.28;
+                step2.add(footer);
             });
         });
     });
