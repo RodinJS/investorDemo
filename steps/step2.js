@@ -17,7 +17,7 @@ I started out manufacturing vr cardboard boxes. In fact, I partnered with Google
 (btw we just built this experience for you guys today and didn’t have time to send out headsets).
  */
     const text = new RODIN.Text3D({
-        text: 'I started out manufacturing vr cardboard boxes.',
+        text: 'I started out manufacturing VR cardboard boxes.',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,
