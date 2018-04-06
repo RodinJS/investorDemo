@@ -59,9 +59,9 @@ step9.init = () => {
 
     const impulsInAnimation = new RODIN.AnimationClip('impulsIn', {
         scale: {
-            x: 0.8,
-            y: 0.8,
-            z: 0.8,
+            x: 0.9,
+            y: 0.9,
+            z: 0.9,
         }
     });
 
@@ -79,25 +79,19 @@ step9.init = () => {
     impulsOutAnimation.duration(800);
     impulsOutAnimation.easing(impulsInAnimation.easing());
 
-    const location = new RODIN.Plane(0.25, 0.25, new THREE.MeshBasicMaterial({
+    const location = new RODIN.Plane(1, 0.25, new THREE.MeshBasicMaterial({
         transparent: true,
-        map: RODIN.Loader.loadTexture('img/location.png'),
+        map: RODIN.Loader.loadTexture('img/slogo.png'),
         side: THREE.DoubleSide
     }));
     step9.add(location);
     location.position.z = 0.02;
+    location.position.y = 0.02;
 
-    const locationImpuls = new RODIN.Plane(0.4, 0.4, new THREE.MeshBasicMaterial({
-        transparent: true,
-        map: RODIN.Loader.loadTexture('img/locationImpuls.png'),
-        side: THREE.DoubleSide
-    }));
-    locationImpuls.animation.add(impulsInAnimation, impulsOutAnimation);
-    locationImpuls.animation.start('impulsIn');
-    locationImpuls.position.z = 0.01;
-    step9.add(locationImpuls);
+    location.animation.add(impulsInAnimation, impulsOutAnimation);
+    location.animation.start('impulsIn');
 
-    locationImpuls.on(RODIN.CONST.ANIMATION_COMPLETE, (e) => {
+    location.on(RODIN.CONST.ANIMATION_COMPLETE, (e) => {
         if (e.animation === 'impulsOut' && !location.hovered) {
             e.target.animation.start('impulsIn');
         }
@@ -106,23 +100,23 @@ step9.init = () => {
         }
     });
     location.on(RODIN.CONST.GAMEPAD_HOVER, (e) => {
-        locationImpuls.animation.stop('impulsOut');
-        locationImpuls.animation.stop('impulsIn');
-        locationImpuls.animation.start('impulsOut');
+        location.animation.stop('impulsOut');
+        location.animation.stop('impulsIn');
+        location.animation.start('impulsOut');
         location.hovered = true;
     });
     location.on(RODIN.CONST.GAMEPAD_HOVER_OUT, (e) => {
-        locationImpuls.animation.stop('impulsOut');
-        locationImpuls.animation.stop('impulsIn');
-        locationImpuls.animation.start('impulsIn');
+        location.animation.stop('impulsOut');
+        location.animation.stop('impulsIn');
+        location.animation.start('impulsIn');
         location.hovered = false;
     });
 
     const text2 = new RODIN.Text3D({
-        text: 'touch/click here and I will send you',
+        text: 'touch/click here and get',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
-        fontSize: 0.07,
+        fontSize: 0.065,
     });
     text2.on(RODIN.CONST.READY, (e) => {
         text2.center();
@@ -131,10 +125,10 @@ step9.init = () => {
     });
 
     const text3 = new RODIN.Text3D({
-        text: 'some more stuff',
+        text: 'your share of Rodin',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
-        fontSize: 0.07,
+        fontSize: 0.065,
     });
     text3.on(RODIN.CONST.READY, (e) => {
         text3.center();
@@ -143,34 +137,7 @@ step9.init = () => {
     });
 
     location.on(RODIN.CONST.GAMEPAD_BUTTON_UP, (e) => {
-        text.parent = null;
-        text1.parent = null;
-        text2.parent = null;
-        text3.parent = null;
-        location.parent = null;
-        locationImpuls.parent = null;
-
-        logEvent({type: 'emailrequest'});
-        sendEmail().then(data => {
-            step9.add(check);
-            logEvent({type: 'emailsend'});
-        }).catch(() => {
-            step9.add(error);
-            logEvent({type: 'emailsend ERROR'});
-        });
-    });
-};
-
-const sendEmail = (n = 5) => {
-    return new Promise((resolve, reject) => {
-        get(`https://api.rodin.investments/sendEmail?id=${getUserID()}`).then(data => {
-            resolve(data);
-        }).catch((err) => {
-            if(n === 0) {
-                reject(err)
-            } else {
-                return sendEmail(n - 1);
-            }
-        });
+        logEvent({type: 'linkClick'});
+        window.location.href = "https://www.seedinvest.com/rodin/seed";
     });
 };

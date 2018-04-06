@@ -19,7 +19,7 @@ step5.init = () => {
     });
 
     const text1 = new RODIN.Text3D({
-        text: 'manage from a single codebase, and deploy apps',
+        text: 'Manage from a single codebase, and deploy apps',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,

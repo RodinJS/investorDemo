@@ -7,7 +7,7 @@ step3.init = () => {
     step3.position.z = -7.5;
 
     const text = new RODIN.Text3D({
-        text: 'Now, I am providing all the web developers,',
+        text: 'Now, enabling all the web developers,',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,

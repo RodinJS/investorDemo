@@ -43,10 +43,10 @@ RODIN.Scene.add(milkyway);
 
 const startExperience = (userData) => {
 
-    if(getAllUrlParams().a === true) {
+    // if(getAllUrlParams().a === true) {
         enableFirebase();
         console.log('firebase enabled');
-    }
+    // }
 
     userEnter(userData.id, userData.name);
     document.getElementById('loadingBackground').style.display = 'none';
@@ -64,7 +64,7 @@ const startExperience = (userData) => {
 const getUserData = new Promise((resolve, reject) => {
     const n = getAllUrlParams().n;
     const id = getAllUrlParams().id;
-    if (!n || !id) {
+    if (!n /*|| !id*/) {
         return typeError();
     }
 

@@ -18,11 +18,25 @@ step7.init = () => {
         text: 'Cross-device games',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
-        fontSize: 0.07,
+        fontSize: 0.07
     });
     text.on(RODIN.CONST.READY, (e) => {
         text.center();
-        text.position.y = -0.08;
+        text.position.y = -0.04;
         step7.add(text);
+    });
+
+    const text2 = new RODIN.Text3D({
+        text: 'Make your current VR/AR experience\naccessible cross-device-cross-platform',
+        color: 0xFFFFFF,
+        font: './fonts/Roboto-Bold.ttf',
+        fontSize: 0.05,
+        lineHeight: 0.085,
+        align: 'center'
+    });
+    text2.on(RODIN.CONST.READY, (e) => {
+        text2.center();
+        text2.position.y = -0.2;
+        step7.add(text2);
     });
 }

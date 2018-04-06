@@ -14,7 +14,7 @@ step8.init = () => {
     step8.add(techstars);
 
     const text = new RODIN.Text3D({
-        text: 'I just graduated Techstars Boulder',
+        text: 'I have graduated Techstars Boulder',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Bold.ttf',
         fontSize: 0.07,

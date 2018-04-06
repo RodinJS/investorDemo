@@ -19,7 +19,7 @@ step6.init = () => {
     });
 
     const text1 = new RODIN.Text3D({
-        text: 'we need to accelerate the densification of the',
+        text: 'Take the online communication to the next level',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,
@@ -31,7 +31,7 @@ step6.init = () => {
     });
 
     const text2 = new RODIN.Text3D({
-        text: 'emotional exchange rate between humans.',
+        text: 'by bringing participants to the same virtual environment.',
         color: 0xFFFFFF,
         font: './fonts/Roboto-Regular.ttf',
         fontSize: 0.05,

@@ -23,7 +23,7 @@ export const userEnter = (_id, _name) => {
             OS: os,
             browser: device.browser
         },
-        emailSent: false,
+        linkClick: false,
         events: {}
     };
 
@@ -42,14 +42,14 @@ export const logEvent = (data) => {
         console.log('event log success');
     });
 
-    if(data.type === 'emailsend') {
+    if(data.type === 'linkClick') {
         setEmailSent();
     }
 };
 
 export const setEmailSent = () => {
     const updates = {};
-    updates['/emailSent'] = true;
+    updates['/linkClick'] = true;
     database.ref(`users/${id}`).update(updates).then(() => {
         console.log('event log success');
     });
