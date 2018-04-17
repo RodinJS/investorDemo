@@ -1,4 +1,4 @@
-const text = 'We are getting ready, please wait';
+const text = 'We are sculpting your experience, please wait.<br>It may take up to 20-40 sec to load';
 
 const randomIn = (min, max) => min + Math.random() * (max - min);
 

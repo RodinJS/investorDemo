@@ -3,7 +3,7 @@ cmd.innerHTML = '';
 const randomIn = (min, max) => min + Math.random() * (max - min);
 
 
-function typeText(text = 'We are getting ready, please wait') {
+function typeText(text = 'We are sculpting your experience, please wait.<br>It may take up to 20-40 sec to load') {
     typeText.runningID = Math.random();
 
     const type = (text, i, runningID) => {
